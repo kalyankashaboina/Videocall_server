@@ -6,8 +6,8 @@ const cors = require('cors');
 const app = express();
 const server = http.createServer(app);
 
-// 🔐 Replace this with your actual deployed frontend URL
-const allowedOrigin = 'https://videocall-app-azure.vercel.app/';
+// 🔐 Replace with your deployed frontend domain (no trailing slash)
+const allowedOrigin = 'https://videocall-app-azure.vercel.app';
 
 app.use(cors({
   origin: allowedOrigin,
@@ -57,6 +57,8 @@ io.on('connection', socket => {
   });
 });
 
-server.listen(5000, () => {
-  console.log('🚀 Server running on http://localhost:5000');
+// 🔁 Use environment port or fallback to 5000
+const PORT = process.env.PORT || 5000;
+server.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 });
