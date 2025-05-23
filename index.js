@@ -5,11 +5,22 @@ const cors = require('cors');
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server, {
-  cors: { origin: '*' }
-});
 
-app.use(cors());
+// 🔐 Replace this with your actual deployed frontend URL
+const allowedOrigin = 'https://videocall-app-azure.vercel.app/';
+
+app.use(cors({
+  origin: allowedOrigin,
+  credentials: true,
+}));
+
+const io = socketIo(server, {
+  cors: {
+    origin: allowedOrigin,
+    methods: ['GET', 'POST'],
+    credentials: true,
+  },
+});
 
 io.on('connection', socket => {
   console.log('Client connected:', socket.id);
